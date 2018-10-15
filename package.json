@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@kbco/router": "^0.0.7",
+    "express": "^4.16.4"
+  }
+}

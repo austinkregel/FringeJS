@@ -34,27 +34,37 @@ module.exports = class Container {
         let instance;
         // We only want to build if the item is actionable. If its a module, require it.
         if (instance = this._isModule(abstract)) {
+            app.log.debug("Building abstract as a module", {abstract})
+            if (instance.hasOwnProperty('register')) {
+                app.log.debug('Running the register method', {abstract})
+                instance.register();
+            }
             return instance;
         }
         // If it's anything other than a module, return it.
         if (this._isAlias(abstract)) {
+            app.log.debug("Alias", {abstract})
             return this.alias(abstract);
         }
 
+        app.log.debug("Failed to process the abstract returning the string:",  {abstract})
         return abstract;
     }
 
     make(abstract, params = {}) {
+        app.log.debug("I'm attempting to build something:",  {abstract})
         let thing = this._build(abstract);
         if (typeof thing === 'function') {
+            app.log.debug("The thing is a function...",  {abstract})
             try {
+                console.log({...params});
+                app.log.debug("Trying to see if it's a constructor:",  {abstract})
                 return new thing(...params)
             } catch (e) {
-                return thing(...params)
+                app.log.error("Its not a constructor, just returning it!:",  {abstract})
             }
         }
-
-        return abstract;
+        return thing;
     }
 
     alias(part) {

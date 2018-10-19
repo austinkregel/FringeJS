@@ -1,4 +1,3 @@
-
 class Stacktrace {
     constructor(error) {
         this._message = '';
@@ -19,27 +18,34 @@ class Stacktrace {
     _parseFrame(frame) {
         let match = (new RegExp('\\(.*?\\)+$')).exec(frame)
         let file = null;
+        let filePatern;
         let line = null;
 
         if (Array.isArray(match)) {
-            file = match[0].replace(/^\(/, '')
+            filePatern = match[0].replace(/^\(/, '')
             // Remove the trailing paren
                 .replace(/\)$/, '');
             // Remove the line and column number
-            line = file.match(/[\d\:\d]+/g)[0].split(':')[1];
-            file = file.replace(/[\:\d\:\d]+/g, '');
+            line = filePatern.match(/[\d\:\d]+/g)[0].split(':')[1];
+            file = filePatern.replace(/[\:\d\:\d]+/g, '');
+            return [null, file, parseInt(line)]
         }
 
         return [null, file, parseInt(line)];
     }
 
     _getFilesFromBrokenMap() {
-        this._brokenMap = this._brokenStackTrace.map(frame => this._parseFrame(frame))
+        this._brokenMap = this._brokenStackTrace.map(frame => (this._parseFrame(frame)))
+            // .filter(trace => trace.length < 3 || trace.length > 3)
+            .filter(trace => trace[1] !== null)
             .map((codeframe) => {
                 let [bit, file, line] = codeframe;
+                app.log.debug("Getting data from frame:",  {bit, file, line})
+
                 let code = this._readFromFile(codeframe);
-                return new Codeframe(file, line, code, codeframe)
+                return new (app.make('Codeframe'))(file, line, code, codeframe)
             })
+
     }
 
     /**
@@ -48,24 +54,31 @@ class Stacktrace {
      */
     _readFromFile(frame) {
         let [_, file, line] = frame;
+        if (!file.startsWith('/')) {
+            app.log.debug('The given file was not a real file, and thus skipped.', {file})
+            return;
+        }
         let fs = app.make('fs')
         let contents = fs.readFileSync(file, 'UTF-8').split("\n");
         let currentLine = 0;
-        let lines = {};
+        var lines = {};
         for (let offset in contents) {
             currentLine++;
-            if ((currentLine - line) > this.NUMBER_OF_LINES_TO_DISPLAY && (currentLine - line) < this.NUMBER_OF_LINES_TO_DISPLAY) {
-                lines[currentLine] = contents[offset];
+            if ((currentLine - line) < this.NUMBER_OF_LINES_TO_DISPLAY && (currentLine - line) > -this.NUMBER_OF_LINES_TO_DISPLAY) {
+                let text = contents[offset];
+                let color = currentLine === line ? 'red' : ((currentLine === line +1 || currentLine=== line-1) ? 'yellow': 'bgBlackBright')
+                let chalk = app.make('chalk');
+                lines[currentLine] = chalk.bgWhite(chalk[color](text));
             }
         }
 
-        return lines;
+        return app.log.code(Object.values(lines).join("\n"));
     }
 
     parse(stacktrace = null) {
         this._breakUpTheStacks();
         this._getFilesFromBrokenMap();
-        return this.codeFrames;
+        return this._brokenMap;
     }
 }
 

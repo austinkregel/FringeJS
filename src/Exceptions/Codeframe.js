@@ -1,4 +1,4 @@
-class Codeframe {
+module.exports = class Codeframe {
     constructor(file, line, code, frame) {
         this.file = file;
         this.line = line;

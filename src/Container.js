@@ -66,7 +66,7 @@ module.exports = class Container {
                 app.log.error("Its not a constructor, just returning it!:",  {abstract})
             }
         }
-        return thing;
+        return possibleInstance;
     }
 
     alias(part) {

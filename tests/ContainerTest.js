@@ -1,6 +1,4 @@
 const chai = require('chai');
-const chaiHttp = require('chai-http');
-const should = chai.should();
 const sinon = require('sinon');
 const proxyquire = require('proxyquire');
 const assert = require('assert');
@@ -15,17 +13,18 @@ const Container = proxyquire
         } 
     });
 
-chai.use(chaiHttp);
-
-describe('We can build the container', () => {
+describe('We can build the container and do stuff with it', () => {
     beforeEach(function() {
         global.app = {
             log: {
                 debug(message, context) {
+                },
+                error(message, context) {
                 }
             }
         }
         sinon.spy(app.log, 'debug');
+        sinon.spy(app.log, 'error');
     });
 
     afterEach(() => {
@@ -116,6 +115,20 @@ describe('We can build the container', () => {
         ])
 
         assert.deepEqual(new Codeframe('file', 'line', 'code', 'frame'), testThing)
+    });
+
+    it('should error and return the built instance', () => {
+        let contain = new Container();
+
+        contain.aliases({
+            test() {}
+        })
+
+        let testThing = contain.make('test')
+
+        assert.equal('Its not a constructor, just returning it!:', app.log.error.getCall(0).args[0])
+
+        assert.equal('function', typeof testThing)
     })
 
     it('should resolve a module', (done) => {

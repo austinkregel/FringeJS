@@ -4,6 +4,7 @@ const should = chai.should();
 const sinon = require('sinon');
 const proxyquire = require('proxyquire');
 const assert = require('assert');
+const Codeframe = require('../src/Exceptions/Codeframe');
 const Container = proxyquire
     .noCallThru()
     .load('../src/Container', {
@@ -95,9 +96,27 @@ describe('We can build the container', () => {
             thing: '../src/Container'
         })
 
-        let newContainer = contain.make('thing', {});
-        console.log({newContainer})
+        let newContainer = contain.make('thing');
+
+        assert.deepEqual(newContainer, new Container())
     });
+
+    it('should pass through the parameters given to the constructor', () => {
+        let contain = new Container();
+
+        contain.aliases({
+            test: '../src/Exceptions/Codeframe'
+        })
+
+        let testThing = contain.make('test', [
+            'file', 
+            'line', 
+            'code', 
+            'frame',
+        ])
+
+        assert.deepEqual(new Codeframe('file', 'line', 'code', 'frame'), testThing)
+    })
 
     it('should resolve a module', (done) => {
         let contain = new Container();

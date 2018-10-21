@@ -16,7 +16,7 @@
     "sinon": "^7.0.0"
   },
   "scripts": {
-    "test": "mocha './**/*Test.js'",
-    "test-coverage": "nyc --reporter=html npm test && nyc report --reporter=text-lcov | ./node_modules/.bin/coveralls"
+    "test": "./node_modules/.bin/_mocha './**/*Test.js'",
+    "test-coverage": "./node_modules/.bin/nyc --reporter=html npm test && ./node_modules/.bin/nyc report --reporter=text-lcov | ./node_modules/.bin/coveralls"
   }
 }

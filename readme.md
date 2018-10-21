@@ -1,3 +1,6 @@
+[![Coverage Status](https://coveralls.io/repos/github/austinkregel/FringeJS/badge.svg)](https://coveralls.io/github/austinkregel/FringeJS)
+[![Build Status](https://travis-ci.org/austinkregel/FringeJS.svg?branch=master)](https://travis-ci.org/austinkregel/FringeJS)
+
 ## What is this?
 This is an opinionated JavaScript framework/application Skeleton for NodeJS applications.
 
@@ -8,3 +11,4 @@ Because I wanted an easy-to-use system that was more familiar to my PHP roots. P
 That is currently being worked on....
 
 This whole project is still very much a WIP, and hopefully it won't die :smile:
+

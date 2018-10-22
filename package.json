@@ -17,6 +17,7 @@
   },
   "scripts": {
     "test": "./node_modules/.bin/_mocha './**/*Test.js'",
+    "local-coverage": "./node_modules/.bin/nyc --reporter=html npm test",
     "test-coverage": "./node_modules/.bin/nyc --reporter=html npm test && ./node_modules/.bin/nyc report --reporter=text-lcov | ./node_modules/.bin/coveralls"
   }
 }

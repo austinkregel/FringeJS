@@ -114,6 +114,15 @@ describe('We can build the container and do stuff with it', () => {
             'frame',
         ])
 
+        assert.equal('Building abstract as a module', app.log.debug.getCall(0).args[0]);
+
+        assert.equal("I'm attempting to build something:", app.log.debug.getCall(1).args[0]);
+        assert.equal("Alias", app.log.debug.getCall(2).args[0]);
+        assert.equal("The thing is a function...", app.log.debug.getCall(3).args[0]);
+        assert.equal("Trying to see if it's a constructor:", app.log.debug.getCall(4).args[0]);
+        assert.equal("Resolved test with params.", app.log.debug.getCall(5).args[0]);
+
+
         assert.deepEqual(new Codeframe('file', 'line', 'code', 'frame'), testThing)
     });
 
@@ -126,7 +135,7 @@ describe('We can build the container and do stuff with it', () => {
 
         let testThing = contain.make('test')
 
-        assert.equal('Its not a constructor, just returning it!:', app.log.error.getCall(0).args[0])
+        assert.equal('Its not a constructor, just returning it!', app.log.error.getCall(0).args[0])
 
         assert.equal('function', typeof testThing)
     })

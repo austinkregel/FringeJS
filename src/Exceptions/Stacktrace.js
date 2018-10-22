@@ -1,4 +1,9 @@
+const fs = require('fs');
+const chalk = require('chalk');
 class Stacktrace {
+    /**
+     * @param {string} error 
+     */
     constructor(error) {
         this._message = '';
         this._error = error
@@ -8,6 +13,9 @@ class Stacktrace {
         this.NUMBER_OF_LINES_TO_DISPLAY = 5;
     }
 
+    /**
+     * @returns {self}
+     */
     _breakUpTheStacks() {
         this._brokenStackTrace = this._error.stack.split('\n').map(item => item.trim());
         this._message = this._error.message;
@@ -15,6 +23,10 @@ class Stacktrace {
         return this;
     }
 
+    /**
+     * @param {string} frame 
+     * @returns {array}
+     */
     _parseFrame(frame) {
         let match = (new RegExp('\\(.*?\\)+$')).exec(frame)
         let file = null;
@@ -34,6 +46,9 @@ class Stacktrace {
         return [null, file, parseInt(line)];
     }
 
+    /**
+     * @returns {void}
+     */
     _getFilesFromBrokenMap() {
         this._brokenMap = this._brokenStackTrace.map(frame => (this._parseFrame(frame)))
             // .filter(trace => trace.length < 3 || trace.length > 3)
@@ -49,7 +64,7 @@ class Stacktrace {
     }
 
     /**
-     * @param frame
+     * @param {array} frame
      * @private
      */
     _readFromFile(frame) {
@@ -58,7 +73,6 @@ class Stacktrace {
             app.log.debug('The given file was not a real file, and thus skipped.', {file})
             return;
         }
-        let fs = app.make('fs')
         let contents = fs.readFileSync(file, 'UTF-8').split("\n");
         let currentLine = 0;
         var lines = {};
@@ -67,7 +81,7 @@ class Stacktrace {
             if ((currentLine - line) < this.NUMBER_OF_LINES_TO_DISPLAY && (currentLine - line) > -this.NUMBER_OF_LINES_TO_DISPLAY) {
                 let text = contents[offset];
                 let color = currentLine === line ? 'red' : ((currentLine === line +1 || currentLine=== line-1) ? 'yellow': 'bgBlackBright')
-                let chalk = app.make('chalk');
+
                 lines[currentLine] = chalk.bgWhite(chalk[color](text));
             }
         }
@@ -75,6 +89,9 @@ class Stacktrace {
         return app.log.code(Object.values(lines).join("\n"));
     }
 
+    /**
+     * @param {string} stacktrace 
+     */
     parse(stacktrace = null) {
         this._breakUpTheStacks();
         this._getFilesFromBrokenMap();

@@ -4,11 +4,9 @@ const HANDLE = (error) => {
      *
      * @type modules.Stacktrace{*}
      */
-    let StackHandler = app.make('Stacktrace');
+    let StackHandler = app.make('Stacktrace', [error]);
 
-    console.log((new StackHandler(error)).parse().map(frame => frame.code).join("\n"))
-
-    process.exit(1)
+    console.log(StackHandler.parse().map(frame => frame.code).join("\n"))
 };
 
 module.exports = {
@@ -16,7 +14,5 @@ module.exports = {
         process.on('uncaughtException', HANDLE);
 
         process.on('unhandledRejection', HANDLE);
-
-        throw new Error();;
     }
 }

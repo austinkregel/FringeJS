@@ -54,16 +54,24 @@ module.exports = class Container {
     make(abstract, params = []) {
         app.log.debug("I'm attempting to build something:",  {abstract})
         let possibleInstance = this._build(abstract);
+
         if (typeof possibleInstance === 'function') {
             app.log.debug("The thing is a function...",  {abstract})
             try {
                 app.log.debug("Trying to see if it's a constructor:",  {abstract})
                 if (params.length === 0) {
-                    return new possibleInstance;
+                    let instance = new possibleInstance;
+                    app.log.debug('Resolved '+ abstract + ' with no params.', {abstract})
+                    return instance;
                 }
-                return new possibleInstance(...params)
+            } catch (e) { }
+
+            try { 
+                let newInstance = new possibleInstance(...params)
+                app.log.debug('Resolved '+ abstract + ' with params.', {abstract})
+                return newInstance;
             } catch (e) {
-                app.log.error("Its not a constructor, just returning it!:",  {abstract})
+                app.log.error("Its not a constructor, just returning it!")
             }
         }
         return possibleInstance;

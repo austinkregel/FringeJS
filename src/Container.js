@@ -35,7 +35,8 @@ module.exports = class Container {
         // We only want to build if the item is actionable. If its a module, require it.
         if (instance = this._isModule(abstract)) {
             app.log.debug("Building abstract as a module", {abstract})
-            if (instance.hasOwnProperty('register')) {
+
+            if (Object.prototype.hasOwnProperty.call(instance, 'register')) {
                 app.log.debug('Running the register method', {abstract})
                 instance.register();
             }

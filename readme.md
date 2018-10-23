@@ -12,3 +12,14 @@ That is currently being worked on....
 
 This whole project is still very much a WIP, and hopefully it won't die :smile:
 
+```
+npm install fringejs
+```
+
+Once installed, all you have to do is require the package. 
+
+```
+require('fringejs')
+```
+
+Now that it's required, you can now access it via the `app` keyword. The app keyword is an instance of our `Container` class.

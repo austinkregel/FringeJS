@@ -1,21 +1,15 @@
 /**
- * Port the app should be set up on
- * @type {number}
+ * @type {module.Container|*}
  */
-const PORT_NUMBER = 3000;
+const Application = require('./src/Container');
+const ErrorHandler = require('./src/Exceptions/Handler');
 
-/**
- * Build the core of the app.
- */
-require('./bootstrap/app');
+global.app = new Application();
 
-/**
- * Get the router
- * @type {*}
- */
-let router = app.make('Router');
+app.log = require('./src/Logger');
 
-/**
- * Listen on a port
- */
-router.listen(process.env.APP_PORT || PORT_NUMBER, () => (console.log('Started...')));
+ErrorHandler.register();
+
+app.aliases({
+    'Router': '../src/Http/Router'
+});

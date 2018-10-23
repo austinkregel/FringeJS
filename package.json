@@ -1,6 +1,18 @@
 {
+  "name": "fringejs",
+  "version": "0.0.1",
+  "description": "An opinionated javascript framework for modern applications",
+  "main": "index.js",
+  "repository": "austinkregel/FringeJS",
+  "author": "Austin Kregel",
+  "license": "MIT",
+  "scripts": {
+    "test": "./node_modules/.bin/_mocha './**/*Test.js'",
+    "local-coverage": "./node_modules/.bin/nyc --reporter=html npm test",
+    "test-coverage": "./node_modules/.bin/nyc --reporter=html npm test && ./node_modules/.bin/nyc report --reporter=text-lcov | ./node_modules/.bin/coveralls"
+  },
   "dependencies": {
-    "@kbco/router": "^0.0.7",
+    "@kbco/router": "0.0.*",
     "chai": "^4.2.0",
     "chai-http": "^4.2.0",
     "chalk": "^2.4.1",
@@ -14,10 +26,5 @@
     "nyc": "^13.1.0",
     "proxyquire": "^2.1.0",
     "sinon": "^7.0.0"
-  },
-  "scripts": {
-    "test": "./node_modules/.bin/_mocha './**/*Test.js'",
-    "local-coverage": "./node_modules/.bin/nyc --reporter=html npm test",
-    "test-coverage": "./node_modules/.bin/nyc --reporter=html npm test && ./node_modules/.bin/nyc report --reporter=text-lcov | ./node_modules/.bin/coveralls"
   }
 }

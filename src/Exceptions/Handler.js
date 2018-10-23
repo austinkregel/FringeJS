@@ -1,11 +1,13 @@
+const Stacktrace = require('./Stacktrace')
 
 const HANDLE = (error) => {
     /**
      *
      * @type modules.Stacktrace{*}
      */
-    let StackHandler = app.make('Stacktrace', [error]);
+    let StackHandler = new Stacktrace(error);
 
+    console.log(error.message);
     console.log(StackHandler.parse().map(frame => frame.code).join("\n"))
 };
 

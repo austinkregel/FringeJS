@@ -1,5 +1,7 @@
 const fs = require('fs');
 const chalk = require('chalk');
+const Codeframe = require('./Codeframe');
+
 class Stacktrace {
     /**
      * @param {string} error 
@@ -47,7 +49,7 @@ class Stacktrace {
     }
 
     /**
-     * @returns {void}
+     * @returns {v}
      */
     _getFilesFromBrokenMap() {
         this._brokenMap = this._brokenStackTrace.map(frame => (this._parseFrame(frame)))
@@ -55,12 +57,9 @@ class Stacktrace {
             .filter(trace => trace[1] !== null)
             .map((codeframe) => {
                 let [bit, file, line] = codeframe;
-                app.log.debug("Getting data from frame:",  {bit, file, line})
-
                 let code = this._readFromFile(codeframe);
-                return new (app.make('Codeframe'))(file, line, code, codeframe)
+                return new Codeframe(file, line, code, codeframe)
             })
-
     }
 
     /**
@@ -80,13 +79,15 @@ class Stacktrace {
             currentLine++;
             if ((currentLine - line) < this.NUMBER_OF_LINES_TO_DISPLAY && (currentLine - line) > -this.NUMBER_OF_LINES_TO_DISPLAY) {
                 let text = contents[offset];
-                let color = currentLine === line ? 'red' : ((currentLine === line +1 || currentLine=== line-1) ? 'yellow': 'bgBlackBright')
+                let color = currentLine === line ? 'black' : ((currentLine === line +1 || currentLine=== line-1) ? 'blue': 'white')
 
-                lines[currentLine] = chalk.bgWhite(chalk[color](text));
+                lines[currentLine] = chalk.bgRed(chalk[color](text));
             }
         }
 
-        return app.log.code(Object.values(lines).join("\n"));
+        console.log(chalk.bgRed(file), line);
+        console.log(Object.values(lines).join("\n"));
+        console.log()
     }
 
     /**

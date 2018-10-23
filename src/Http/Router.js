@@ -14,7 +14,7 @@ const handler = {
             return app[prop]
         }
 
-        return console.error('Your router does not have the method: ', prop)
+        return null
     }
 };
 

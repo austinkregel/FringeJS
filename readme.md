@@ -23,3 +23,7 @@ require('fringejs')
 ```
 
 Now that it's required, you can now access it via the `app` keyword. The app keyword is an instance of our `Container` class.
+## Support on Beerpay
+Hey dude! Help me out for a couple of :beers:!
+
+[![Beerpay](https://beerpay.io/austinkregel/FringeJS/badge.svg?style=beer-square)](https://beerpay.io/austinkregel/FringeJS)  [![Beerpay](https://beerpay.io/austinkregel/FringeJS/make-wish.svg?style=flat-square)](https://beerpay.io/austinkregel/FringeJS?focus=wish)

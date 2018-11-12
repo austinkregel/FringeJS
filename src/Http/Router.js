@@ -6,6 +6,10 @@ let router = require('@kbco/router')(app);
 
 const handler = {
     get (target, prop, receiver) {
+        if (prop === 'express') {
+            return app;   
+        }
+        
         if (router.hasOwnProperty(prop)) {
             return router[prop];
         }

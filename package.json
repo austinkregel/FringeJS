@@ -1,6 +1,6 @@
 {
   "name": "fringejs",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "An opinionated javascript framework for modern applications",
   "main": "index.js",
   "repository": "austinkregel/FringeJS",

@@ -13,8 +13,8 @@ const HANDLE = (error) => {
 
 module.exports = {
     register() {
-        process.on('uncaughtException', HANDLE);
-
-        process.on('unhandledRejection', HANDLE);
+        // As much as I don't want to disable this because functionallity, I must since it makes debugging (for now) a pain.
+        //process.on('uncaughtException', HANDLE);
+        //process.on('unhandledRejection', HANDLE);
     }
 }

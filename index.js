@@ -2,14 +2,16 @@
  * @type {module.Container|*}
  */
 const Application = require('./src/Container');
-const ErrorHandler = require('./src/Exceptions/Handler');
 
 global.app = new Application();
 
 app.log = require('./src/Logger');
 
-ErrorHandler.register();
+const ConfigServiceProvider = require('./src/Config/ConfigServiceProvider');
+let config = new ConfigServiceProvider();
 
 app.aliases({
-    'Router': '../src/Http/Router'
+    'Router': '../src/Http/Router',
+    'Config': config
 });
+

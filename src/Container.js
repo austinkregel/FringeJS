@@ -85,5 +85,19 @@ module.exports = class Container {
 
         return null;
     }
+
+    register(serviceProviders = []) {
+        serviceProviders.forEach((provider) => {
+            if (typeof provider === 'string') {
+                provider = require(provider);
+            }
+
+            if (this._isModule(provider) || typeof provider === 'function') {
+                provider = new provider();
+            }
+
+            provider.register()
+        })
+    }
 }
 

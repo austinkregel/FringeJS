@@ -1,16 +1,12 @@
 module.exports = {
     info(message, context = []) {
-        if (process.env.APP_ENV === 'debug') {
-            console.log('[-]', message, context)
-        }
+        console.log('[-]', message, context)
     },
     error(message, context = []) {
-        if (process.env.APP_ENV === 'debug') {
-            console.debug('[!]', message, context)
-        }
+        console.debug('[!]', message, context)
     },
     debug(message, context = []) {
-        if (process.env.APP_ENV === 'debug') {
+        if (process.env.APP_ENV !== 'production') {
             console.debug('[+]', message, context)
         }
     }

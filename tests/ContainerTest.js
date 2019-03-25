@@ -2,7 +2,6 @@ const chai = require('chai');
 const sinon = require('sinon');
 const proxyquire = require('proxyquire');
 const assert = require('assert');
-const Codeframe = require('../src/Exceptions/Codeframe');
 const Container = proxyquire
     .noCallThru()
     .load('../src/Container', {
@@ -98,32 +97,6 @@ describe('We can build the container and do stuff with it', () => {
         let newContainer = contain.make('thing');
 
         assert.deepEqual(newContainer, new Container())
-    });
-
-    it('should pass through the parameters given to the constructor', () => {
-        let contain = new Container();
-
-        contain.aliases({
-            test: '../src/Exceptions/Codeframe'
-        })
-
-        let testThing = contain.make('test', [
-            'file', 
-            'line', 
-            'code', 
-            'frame',
-        ])
-
-        assert.equal('Building abstract as a module', app.log.debug.getCall(0).args[0]);
-
-        assert.equal("I'm attempting to build something:", app.log.debug.getCall(1).args[0]);
-        assert.equal("Alias", app.log.debug.getCall(2).args[0]);
-        assert.equal("The thing is a function...", app.log.debug.getCall(3).args[0]);
-        assert.equal("Trying to see if it's a constructor:", app.log.debug.getCall(4).args[0]);
-        assert.equal("Resolved test with params.", app.log.debug.getCall(5).args[0]);
-
-
-        assert.deepEqual(new Codeframe('file', 'line', 'code', 'frame'), testThing)
     });
 
     it('should error and return the built instance', () => {

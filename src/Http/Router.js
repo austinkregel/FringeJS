@@ -7,14 +7,14 @@ let router = require('@kbco/router')(app);
 const handler = {
     get (target, prop, receiver) {
         if (prop === 'express') {
-            return app;   
+            return app;
         }
-        
-        if (router.hasOwnProperty(prop)) {
+
+        if (typeof router[prop] === 'function') {
             return router[prop];
         }
 
-        if (app.hasOwnProperty(prop)) {
+        if (typeof app[prop] === 'function') {
             return app[prop]
         }
 

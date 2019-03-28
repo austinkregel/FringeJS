@@ -1,6 +1,6 @@
 {
   "name": "fringejs",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "An opinionated javascript framework for modern applications",
   "main": "index.js",
   "repository": "austinkregel/FringeJS",
@@ -12,7 +12,7 @@
     "test-coverage": "./node_modules/.bin/nyc --reporter=html npm test && ./node_modules/.bin/nyc report --reporter=text-lcov | ./node_modules/.bin/coveralls"
   },
   "dependencies": {
-    "@kbco/router": "^0.1.0",
+    "@kbco/router": "^0.2.0",
     "chai": "^4.2.0",
     "chai-http": "^4.2.0",
     "chalk": "^2.4.1",

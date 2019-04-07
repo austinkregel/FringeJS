@@ -1,21 +1,25 @@
 const express = require('express')
 
-const app = express()
+const application = express()
 
-let router = require('@kbco/router')(app);
+let router = require('@kbco/router')(application);
 
 const handler = {
     get (target, prop, receiver) {
         if (prop === 'express') {
-            return app;
+            return application;
+        }
+
+        if (prop === 'router') {
+            return router;
         }
 
         if (typeof router[prop] === 'function') {
             return router[prop];
         }
 
-        if (typeof app[prop] === 'function') {
-            return app[prop]
+        if (typeof application[prop] === 'function') {
+            return application[prop]
         }
 
         return null
@@ -23,4 +27,4 @@ const handler = {
 };
 
 
-module.exports = new Proxy(app, handler);
+module.exports = new Proxy(application, handler);

@@ -72,7 +72,7 @@ module.exports = class Container {
                 app.log.debug('Resolved '+ abstract + ' with params.', {abstract})
                 return newInstance;
             } catch (e) {
-                app.log.error("Its not a constructor, just returning it!")
+                app.log.debug("Its not a constructor, just returning it!")
             }
         }
         return possibleInstance;

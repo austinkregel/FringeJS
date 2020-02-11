@@ -6,7 +6,7 @@ module.exports = {
         console.debug('[!]', message, context)
     },
     debug(message, context = []) {
-        if (process.env.APP_ENV !== 'production') {
+        if (process.env.APP_DEBUG === 'true' || process.env.APP_DEBUG === true) {
             console.debug('[+]', message, context)
         }
     }
